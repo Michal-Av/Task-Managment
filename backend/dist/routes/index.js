@@ -6,8 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // routes/index.ts
 const express_1 = __importDefault(require("express"));
 const csurf_1 = __importDefault(require("csurf"));
-const todo_routes_1 = __importDefault(require("./todo.routes"));
-const user_routes_1 = require("./user.routes");
+const user_routes_1 = __importDefault(require("./user.routes"));
+const project_routes_1 = __importDefault(require("./project.routes"));
+const task_routes_1 = __importDefault(require("./task.routes"));
 const router = express_1.default.Router();
 const csrfProtection = (0, csurf_1.default)({ cookie: true });
 router.get("/status", (_, res) => res.status(200).json({ status: "OK" }));
@@ -24,6 +25,8 @@ router.use((err, req, res, next) => {
         next(err);
     }
 });
-router.use('/api/todo', todo_routes_1.default);
-router.use("/auth", csrfProtection, user_routes_1.userRoutes);
+router.use("/auth", csrfProtection, user_routes_1.default);
+router.use('/api/user', user_routes_1.default);
+router.use('/api/project', project_routes_1.default);
+router.use('/api/task', task_routes_1.default);
 exports.default = router;

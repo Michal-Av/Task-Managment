@@ -1,25 +1,26 @@
 "use strict";
-// data-access/user.da.ts
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUserPassword = exports.getUserById = exports.createUser = exports.getUserByEmail = void 0;
-const user_model_1 = __importDefault(require("../models/user.model"));
-async function getUserByEmail(email) {
-    return await user_model_1.default.findOne({ email });
-}
-exports.getUserByEmail = getUserByEmail;
-async function createUser(userData) {
-    return await user_model_1.default.create(userData);
-}
+exports.getAllUsers = getAllUsers;
+exports.getUser = getUser;
 exports.createUser = createUser;
-async function getUserById(userId) {
-    return await user_model_1.default.findById(userId);
+exports.deleteUser = deleteUser;
+exports.updateUser = updateUser;
+const user_model_1 = __importDefault(require("../models/user.model"));
+async function getAllUsers() {
+    return await user_model_1.default.find();
 }
-exports.getUserById = getUserById;
-async function updateUserPassword(email, newPasswordHash) {
-    // Update user's password in the database
-    return await user_model_1.default.findOneAndUpdate({ email }, { password: newPasswordHash });
+async function getUser(id) {
+    return await user_model_1.default.findById(id);
 }
-exports.updateUserPassword = updateUserPassword;
+async function createUser(input) {
+    return await user_model_1.default.create(input);
+}
+async function deleteUser(id) {
+    return await user_model_1.default.findByIdAndDelete(id);
+}
+async function updateUser(id, input) {
+    return await user_model_1.default.findByIdAndUpdate(id, input, { new: true });
+}

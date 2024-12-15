@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.connect = void 0;
+exports.connect = connect;
 /**
  * @mongoDB Atlas
  * connect to the DB weatherDB
@@ -11,6 +11,7 @@ exports.connect = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const default_1 = __importDefault(require("../config/default"));
 async function connect() {
+    mongoose_1.default.set('strictQuery', true);
     const dbUri = default_1.default.dbUri || '';
     try {
         if (!dbUri) {
@@ -20,9 +21,7 @@ async function connect() {
         console.log('Successfully connected to MongoDB Atlas!');
     }
     catch (error) {
-        console.log('Unable to connect to MongoDB Atlas!');
-        console.error(error);
-        process.exit(1);
+        console.error('Unable to connect to MongoDB Atlas!', error);
+        throw error; // זרוק שגיאה במקום להפסיק את התהליך
     }
 }
-exports.connect = connect;

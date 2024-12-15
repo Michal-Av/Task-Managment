@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateSignup = void 0;
+exports.validateSignup = validateSignup;
 // validation.ts
 const joi_1 = __importDefault(require("joi"));
 const signupSchema = joi_1.default.object({
@@ -18,4 +18,3 @@ function validateSignup(req, res, next) {
     }
     next();
 }
-exports.validateSignup = validateSignup;

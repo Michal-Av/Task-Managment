@@ -1,8 +1,9 @@
 // routes/index.ts
 import express, { Request, Response, NextFunction } from 'express';
 import csrf from 'csurf';
-import todoRoutes from './todo.routes';
-import {userRoutes} from './user.routes';
+import userRoutes from './user.routes';
+import projectRoutes from './project.routes';
+import taskRoutes from './task.routes';
 
 const router = express.Router();
 const csrfProtection = csrf({ cookie: true });
@@ -23,7 +24,10 @@ router.use((err: any, req: Request, res: Response, next: NextFunction) => {
     }
 });
 
-router.use('/api/todo', todoRoutes);
 router.use("/auth", csrfProtection, userRoutes);
+router.use('/api/user', userRoutes);
+router.use('/api/project', projectRoutes);
+router.use('/api/task', taskRoutes);
+
 
 export default router;

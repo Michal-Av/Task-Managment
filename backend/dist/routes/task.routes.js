@@ -4,11 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const user_controller_1 = require("../controllers/user.controller");
+const task_controller_1 = require("../controllers/task.controller");
 const router = express_1.default.Router();
-router.get('/', user_controller_1.getAllUsers);
-router.post('/', user_controller_1.createUser);
-router.get('/:id', user_controller_1.getUserById);
-router.put('/:id', user_controller_1.updateUser);
-router.delete('/:id', user_controller_1.deleteUser);
+router.get('/', task_controller_1.getAllTasks);
+router.post('/', task_controller_1.createTask);
+router.get('/:id', task_controller_1.getTaskById);
+router.put('/:id', task_controller_1.updateTask);
+router.delete('/:id', task_controller_1.deleteTask);
 exports.default = router;

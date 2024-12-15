@@ -30,3 +30,4 @@ app.listen(port, async () => {
     console.log(`Server is running on port ${port}`);
     await (0, connect_1.connect)();
 });
+exports.default = app;

@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import config from '../config/default';
 
 export async function connect(): Promise<void> {
+    mongoose.set('strictQuery', true);
     const dbUri: string = config.dbUri || '';
 
     try {
@@ -15,8 +16,8 @@ export async function connect(): Promise<void> {
         await mongoose.connect(dbUri);
         console.log('Successfully connected to MongoDB Atlas!');
     } catch (error) {
-        console.log('Unable to connect to MongoDB Atlas!');
-        console.error(error);
-        process.exit(1);
+        console.error('Unable to connect to MongoDB Atlas!', error);
+        throw error; // זרוק שגיאה במקום להפסיק את התהליך
     }
 }
+

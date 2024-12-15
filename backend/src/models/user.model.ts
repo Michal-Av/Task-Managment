@@ -1,22 +1,32 @@
-// models/user.model.ts
+import mongoose, { Document } from 'mongoose';
 
-import mongoose, { Schema, Document } from 'mongoose';
-import uniqueValidator from 'mongoose-unique-validator';
-
-export interface User extends Document {
-    email: string;
-    password: string;
-    username: string;
+export interface User {
+  name: string;
+  email: string;
+  password: string;
+  projects: mongoose.Types.ObjectId[]; // קישורים לפרויקטים
 }
 
-const userSchema: Schema<User> = new Schema({
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    username: { type: String, required: true }
+export interface UserDocument extends User, Document {}
+
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  projects: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'projects',
+  }],
 });
 
-userSchema.plugin(uniqueValidator);
-
-const UserModel = mongoose.model<User>('users', userSchema);
-
-export default UserModel;
+export default mongoose.model<UserDocument>('users', userSchema);

@@ -1,20 +1,18 @@
-//routes/city.routes.ts
-
 import express, { Router } from 'express';
-const userController = require('../controllers/user.controller');
-
-const {
-    validateSignup,
-} = require('../validations/user.validation');
+import {
+  createUser,
+  getAllUsers,
+  getUserById,
+  updateUser,
+  deleteUser,
+} from '../controllers/user.controller';
 
 const router: Router = express.Router();
 
-// Route for userModel
-router.post('/signup', validateSignup, userController.signup);
-router.post('/login', userController.login);
-router.post('/logout', userController.logout);
+router.get('/', getAllUsers);
+router.post('/', createUser);
+router.get('/:id', getUserById);
+router.put('/:id', updateUser);
+router.delete('/:id', deleteUser);
 
-router.post('/forgot-password', userController.forgotPassword);
-router.post('/reset-password', userController.resetPassword);
-
-export { router as userRoutes };
+export default router;

@@ -1,6 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllTodos = exports.deleteTodo = exports.updateTodo = exports.getTodoById = exports.createTodo = void 0;
+exports.createTodo = createTodo;
+exports.getTodoById = getTodoById;
+exports.updateTodo = updateTodo;
+exports.deleteTodo = deleteTodo;
+exports.getAllTodos = getAllTodos;
 const todo_service_1 = require("../services/todo.service");
 async function createTodo(req, res, next) {
     try {
@@ -11,7 +15,6 @@ async function createTodo(req, res, next) {
         res.status(400).json({ error: error.message });
     }
 }
-exports.createTodo = createTodo;
 async function getTodoById(req, res, next) {
     try {
         const todo = await (0, todo_service_1.getTodoUC)(req.params);
@@ -21,7 +24,6 @@ async function getTodoById(req, res, next) {
         res.status(404).json({ error: error.message });
     }
 }
-exports.getTodoById = getTodoById;
 async function updateTodo(req, res, next) {
     try {
         await (0, todo_service_1.updateTodoUC)(req.params, req.body);
@@ -31,7 +33,6 @@ async function updateTodo(req, res, next) {
         res.status(400).json({ error: error.message });
     }
 }
-exports.updateTodo = updateTodo;
 async function deleteTodo(req, res, next) {
     try {
         await (0, todo_service_1.deleteTodoUC)(req.params);
@@ -41,7 +42,6 @@ async function deleteTodo(req, res, next) {
         res.status(400).json({ error: error.message });
     }
 }
-exports.deleteTodo = deleteTodo;
 async function getAllTodos(req, res, next) {
     try {
         const todos = await (0, todo_service_1.getAllTodosUC)();
@@ -51,4 +51,3 @@ async function getAllTodos(req, res, next) {
         res.status(400).json({ error: error.message });
     }
 }
-exports.getAllTodos = getAllTodos;

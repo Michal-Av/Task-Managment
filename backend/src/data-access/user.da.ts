@@ -1,20 +1,21 @@
-// data-access/user.da.ts
+import UserModel, { UserDocument } from '../models/user.model';
 
-import UserModel, { User } from '../models/user.model';
-
-export async function getUserByEmail(email: string): Promise<User | null> {
-    return await UserModel.findOne({ email });
+export async function getAllUsers(): Promise<UserDocument[]> {
+    return await UserModel.find();
 }
 
-export async function createUser(userData: Partial<User>): Promise<User> {
-    return await UserModel.create(userData);
+export async function getUser(id: string): Promise<UserDocument | null> {
+    return await UserModel.findById(id);
 }
 
-export async function getUserById(userId: string): Promise<User | null> {
-    return await UserModel.findById(userId);
+export async function createUser(input: any): Promise<UserDocument> {
+    return await UserModel.create(input);
 }
 
-export async function updateUserPassword(email: string, newPasswordHash: string): Promise<User | null> {
-    // Update user's password in the database
-    return await UserModel.findOneAndUpdate({ email }, { password: newPasswordHash });
+export async function deleteUser(id: string): Promise<UserDocument | null> {
+    return await UserModel.findByIdAndDelete(id);
+}
+
+export async function updateUser(id: string, input: any): Promise<UserDocument | null> {
+    return await UserModel.findByIdAndUpdate(id, input, { new: true });
 }
