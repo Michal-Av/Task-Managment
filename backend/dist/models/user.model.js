@@ -18,9 +18,25 @@ const userSchema = new mongoose_1.default.Schema({
         type: String,
         required: true,
     },
-    projects: [{
+    projects: [
+        {
             type: mongoose_1.default.Schema.Types.ObjectId,
-            ref: 'projects',
-        }],
+            ref: "projects",
+        },
+    ],
+    role: {
+        type: String,
+        enum: ["Admin", "Editor", "Viewer"],
+        required: true,
+    },
+    location: {
+        type: String,
+        required: true,
+    },
+    status: {
+        type: String,
+        enum: ["online", "offline"],
+        default: "offline",
+    },
 });
-exports.default = mongoose_1.default.model('users', userSchema);
+exports.default = mongoose_1.default.model("users", userSchema);

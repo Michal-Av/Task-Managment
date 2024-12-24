@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendResetPasswordEmail = void 0;
+exports.sendResetPasswordEmail = sendResetPasswordEmail;
 const nodemailer_1 = __importDefault(require("nodemailer"));
 const transporter = nodemailer_1.default.createTransport({
     service: 'gmail',
@@ -29,4 +29,3 @@ async function sendResetPasswordEmail(email, resetToken) {
         throw error; // Rethrow the error to be handled by the caller
     }
 }
-exports.sendResetPasswordEmail = sendResetPasswordEmail;

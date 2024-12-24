@@ -19,3 +19,8 @@ export async function deleteTask(id: string): Promise<TaskDocument | null> {
 export async function updateTask(id: string, input: any): Promise<TaskDocument | null> {
     return await TaskModel.findByIdAndUpdate(id, input, { new: true });
 }
+
+export async function getTasksByProject(projectId: string): Promise<any> {
+    return await TaskModel.find({ projectId });
+}
+

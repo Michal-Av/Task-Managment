@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Form from '../components/Containers/Form/Form';
 import ButtonLink from '../components/UIElements/ButtonLink';
 import { login, signup, forgot_pass } from '../services/api-auth';
@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import '../styles/Login.css';
 import LanguageSelector from '../components/UIElements/Select/LanguageSelector';
 import Logo from '../assets/images/logo/3.png';
+import { updateUserStatus } from '../services/api-users';
 
 interface LoginCompProps {
   setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,7 +18,7 @@ const LoginComp: React.FC<LoginCompProps> = ({ setLoggedIn }) => {
   const [ForgotMode, setForgotMode] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
   const { t, i18n } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
 
   // Define translated login and signup fields
@@ -66,7 +67,15 @@ const handleLogin = async (formData: { username: string; password: string }) => 
       setLoggedIn(true);
       sessionStorage.setItem('isLoggedIn', 'true'); // Store authentication state in session storage
       sessionStorage.setItem('csrfToken', response.csrfToken); // Store CSRF token
-      history.push('/home');
+
+    // const userId = response.user?.id || response.user?._id;
+    // if (userId) {
+    //   await updateUserStatus(userId, 'online');
+    // } else {
+    //   console.error('User ID not found in login response');
+    // }
+    
+      navigate('/home');
   } catch (error) {
       setMessage('User Name or password incorrect');
   }

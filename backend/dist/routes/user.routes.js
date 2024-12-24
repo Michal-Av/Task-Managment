@@ -11,4 +11,5 @@ router.post('/', user_controller_1.createUser);
 router.get('/:id', user_controller_1.getUserById);
 router.put('/:id', user_controller_1.updateUser);
 router.delete('/:id', user_controller_1.deleteUser);
+router.post('/status', user_controller_1.updateUserStatus);
 exports.default = router;

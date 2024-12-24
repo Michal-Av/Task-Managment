@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useNavigate, Link  } from 'react-router-dom';
 import Logo from '../../../assets/images/logo/3.png';
 import './Header.css';
 import { logout } from '../../../services/api-auth';
@@ -9,13 +9,13 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ username }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
       await logout();
       console.log('User has logged out');
-      history.push("/login");
+      navigate("/login");
     } catch (error) {
       console.log('User has not logged out');
     }

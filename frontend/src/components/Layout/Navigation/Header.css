@@ -3,8 +3,8 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
-    background: linear-gradient(to bottom, #002144, #025a77);
+    padding: 3px;
+    background-color: #2b2b2b;
     color: #fff;
   }
   

@@ -14,8 +14,8 @@ const config: Config = {
     protocol: "http",
     host: "localhost",
     origin: "https://localhost:4000",
-    secretKey: "A0KzQq3cNfBogjH8",
-    dbUri: "mongodb+srv://michal:A0KzQq3cNfBoGko9@cluster0.et8rk.mongodb.net/tempDB?retryWrites=true&w=majority"
+    secretKey: "YElq5hKf8vjohgCQ",
+    dbUri: "mongodb+srv://tasksApp:YElq5hKf8vjohgCQ@cluster0.et8rk.mongodb.net/tempDB?retryWrites=true&w=majority"
 };
 
 export default config;

@@ -4,6 +4,7 @@ import csrf from 'csurf';
 import userRoutes from './user.routes';
 import projectRoutes from './project.routes';
 import taskRoutes from './task.routes';
+import { authRoutes } from './auth.routes';
 
 const router = express.Router();
 const csrfProtection = csrf({ cookie: true });
@@ -24,7 +25,7 @@ router.use((err: any, req: Request, res: Response, next: NextFunction) => {
     }
 });
 
-router.use("/auth", csrfProtection, userRoutes);
+router.use("/auth", csrfProtection, authRoutes);
 router.use('/api/user', userRoutes);
 router.use('/api/project', projectRoutes);
 router.use('/api/task', taskRoutes);

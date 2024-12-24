@@ -1,46 +1,57 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Redirect, RouteProps } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate
+} from 'react-router-dom';
 import LoginPage from './Login';
 import HomePage from './Home';
-import ResetPasswordPage from './ResetPassword'; // Import the ResetPasswordPage component
+import ResetPasswordPage from './ResetPassword';
 
 const MainComp: React.FC = () => {
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
   return (
-    <Router>
-      <Route exact path="/">
-        {loggedIn ? <Redirect to="/home" /> : <Redirect to="/login" />}
-      </Route>
-      <Route path="/login">
-        <LoginPage setLoggedIn={setLoggedIn} />
-      </Route>
-      <PrivateRoute path="/home" component={HomePage} loggedIn={loggedIn} />
-      <Route path="/reset-password/:token"> {/* Add a new Route for the reset-password path */}
-        <ResetPasswordPage setLoggedIn={setLoggedIn} />
-      </Route>
-    </Router>
+      <Routes>
+        <Route
+            path="/"
+            element={
+              loggedIn ? <Navigate to="/home" replace /> : <Navigate to="/login" replace />
+            }
+          />
+        <Route
+          path="/login"
+          element={<LoginPage setLoggedIn={setLoggedIn} />}
+        />
+         <Route
+          path="/home"
+          element={
+            <PrivateRoute loggedIn={loggedIn}>
+              <HomePage />
+            </PrivateRoute>
+          }
+        />
+         <Route
+          path="/reset-password/:token"
+          element={<ResetPasswordPage setLoggedIn={setLoggedIn} />}
+        />
+      </Routes>
+  
   );
 };
 
-interface PrivateRouteProps extends RouteProps {
-  component: React.ComponentType<any>;
+interface PrivateRouteProps {
+  children: React.ReactNode;
   loggedIn: boolean;
 }
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({ component: Component, loggedIn, ...rest }) => {
-  return (
-    <Route
-      {...rest}
-      render={props =>
-        loggedIn ? (
-          <Component {...props} />
-        ) : (
-          <Redirect to="/login" />
-        )
-      }
-    />
-  );
+
+const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, loggedIn }) => {
+  if (!loggedIn) {
+    return <Navigate to="/login" replace />;
+  }
+  return <>{children}</>;
 };
 
 export default MainComp;

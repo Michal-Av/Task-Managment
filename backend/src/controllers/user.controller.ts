@@ -5,6 +5,7 @@ import {
   getAllUsersUC,
   getUserUC,
   updateUserUC,
+  updateUserStatusUC
 } from '../services/user.service';
 
 export async function createUser(req: Request, res: Response): Promise<void> {
@@ -33,6 +34,18 @@ export async function updateUser(req: Request<{ id: string }>, res: Response): P
         res.status(400).json({ error: error.message });
     }
 }
+
+export async function updateUserStatus(req: Request, res: Response): Promise<void> {
+    const { id, status } = req.body;
+    try {
+        const user = await updateUserStatusUC(id, status);
+        res.status(200).json({ message: 'User status updated successfully!', user });
+    } catch (error: any) {
+        console.error('Error updating user status:', error.message);
+        res.status(500).json({ error: 'Failed to update user status' });
+    }
+}
+
 
 export async function deleteUser(req: Request<{ id: string }>, res: Response): Promise<void> {
     try {

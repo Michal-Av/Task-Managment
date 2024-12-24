@@ -9,6 +9,7 @@ const router = express_1.default.Router();
 router.get('/', task_controller_1.getAllTasks);
 router.post('/', task_controller_1.createTask);
 router.get('/:id', task_controller_1.getTaskById);
+router.get('/project/:projectId', task_controller_1.getTaskByProject);
 router.put('/:id', task_controller_1.updateTask);
 router.delete('/:id', task_controller_1.deleteTask);
 exports.default = router;

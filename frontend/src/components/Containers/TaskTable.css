@@ -1,0 +1,9 @@
+.MuiDataGrid-row--borderBottom.css-yseucu-MuiDataGrid-columnHeaderRow{
+  background: #fff !important;
+  color: black;
+  font-size: 18px;
+}
+
+.MuiChip-root {
+  border-radius: 0px !important;
+}

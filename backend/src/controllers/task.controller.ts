@@ -5,6 +5,7 @@ import {
   getAllTasksUC,
   getTaskUC,
   updateTaskUC,
+  getTasksByProjectUC
 } from '../services/task.service';
 
 export async function createTask(req: Request, res: Response): Promise<void> {
@@ -51,3 +52,13 @@ export async function getAllTasks(req: Request, res: Response): Promise<void> {
         res.status(400).json({ error: error.message });
     }
 }
+
+export async function getTaskByProject(req: Request<{ projectId: string }>, res: Response): Promise<void> {
+    try {
+        const tasks = await getTasksByProjectUC(req.params);
+        res.status(200).json(tasks);
+    } catch (error: any) {
+        res.status(400).json({ error: error.message });
+    }
+}
+

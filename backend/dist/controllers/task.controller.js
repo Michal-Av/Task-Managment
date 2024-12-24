@@ -5,6 +5,7 @@ exports.getTaskById = getTaskById;
 exports.updateTask = updateTask;
 exports.deleteTask = deleteTask;
 exports.getAllTasks = getAllTasks;
+exports.getTaskByProject = getTaskByProject;
 const task_service_1 = require("../services/task.service");
 async function createTask(req, res) {
     try {
@@ -45,6 +46,15 @@ async function deleteTask(req, res) {
 async function getAllTasks(req, res) {
     try {
         const tasks = await (0, task_service_1.getAllTasksUC)();
+        res.status(200).json(tasks);
+    }
+    catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
+async function getTaskByProject(req, res) {
+    try {
+        const tasks = await (0, task_service_1.getTasksByProjectUC)(req.params);
         res.status(200).json(tasks);
     }
     catch (error) {

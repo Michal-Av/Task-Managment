@@ -8,6 +8,7 @@ exports.getTask = getTask;
 exports.createTask = createTask;
 exports.deleteTask = deleteTask;
 exports.updateTask = updateTask;
+exports.getTasksByProject = getTasksByProject;
 const task_model_1 = __importDefault(require("../models/task.model"));
 async function getAllTasks() {
     return await task_model_1.default.find().populate('projectId').populate('assignedTo').populate('dependentTasks');
@@ -23,4 +24,7 @@ async function deleteTask(id) {
 }
 async function updateTask(id, input) {
     return await task_model_1.default.findByIdAndUpdate(id, input, { new: true });
+}
+async function getTasksByProject(projectId) {
+    return await task_model_1.default.find({ projectId });
 }

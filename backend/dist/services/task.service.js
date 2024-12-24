@@ -5,6 +5,7 @@ exports.deleteTaskUC = deleteTaskUC;
 exports.updateTaskUC = updateTaskUC;
 exports.getAllTasksUC = getAllTasksUC;
 exports.getTaskUC = getTaskUC;
+exports.getTasksByProjectUC = getTasksByProjectUC;
 const task_da_1 = require("../data-access/task.da");
 async function createTaskUC(body) {
     return await (0, task_da_1.createTask)(body);
@@ -27,4 +28,8 @@ async function getTaskUC(params) {
         throw new Error('Task not found');
     }
     return task;
+}
+async function getTasksByProjectUC(params) {
+    const { projectId } = params;
+    return await (0, task_da_1.getTasksByProject)(projectId);
 }

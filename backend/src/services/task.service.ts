@@ -4,6 +4,7 @@ import {
     getAllTasks,
     getTask,
     updateTask,
+    getTasksByProject
   } from '../data-access/task.da';
   
   export async function createTaskUC(body: any): Promise<any> {
@@ -32,4 +33,10 @@ import {
     }
     return task;
 }
+
+export async function getTasksByProjectUC(params: { projectId: string }): Promise<any> {
+  const { projectId } = params;
+  return await getTasksByProject(projectId);
+}
+
   

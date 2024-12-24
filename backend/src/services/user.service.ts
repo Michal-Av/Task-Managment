@@ -4,6 +4,9 @@ import {
     getAllUsers,
     getUser,
     updateUser,
+    getUserByEmail,
+    updateUserPassword,
+    updateUserStatus
   } from '../data-access/user.da';
   
   export async function createUserUC(body: any): Promise<any> {
@@ -19,6 +22,10 @@ import {
     const { id } = params;
     return await updateUser(id, body);
   }
+
+  export async function updateUserStatusUC(id: string, status: string): Promise<any> {
+    return await updateUserStatus(id, status);
+  }
   
   export async function getAllUsersUC(): Promise<any> {
     return await getAllUsers();
@@ -28,4 +35,12 @@ import {
     const { id } = params;
     return await getUser(id);
   }
+
+  export async function getUserByEmailUC(email: string): Promise<any> {
+    return await getUserByEmail(email);
+}
+
+  export async function updateUserPasswordUC(email: string, pass: string): Promise<any> {
+    return await updateUserPassword(email, pass);
+}
   
