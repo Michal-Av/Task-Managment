@@ -3,7 +3,7 @@ import { useTasks } from "../hooks/useTask";
 import Header from "../components/Layout/Navigation/Header";
 import Sidebar from "../components/Layout/Navigation/Sidebar";
 import TaskManager from "./TaskManager";
-import { Task } from "../types/Task";
+import { Task, TaskStatus } from "../types/Task";
 import { addTask, deleteTask, getTasks, getTasksByProject, updateTask } from "../services/api-tasks";
 import { addProject, deleteProject, getProjects } from "../services/api-projects";
 
@@ -136,14 +136,30 @@ const Home: React.FC = () => {
   
 
   // Handle status update
-  const handleStatusUpdate = async (id: string, newStatus: string) => {
+  const handleStatusUpdate = async (id: string, newStatus: TaskStatus) => {
     try {
+      setTasks((prevTasks) =>
+        prevTasks.map((task) =>
+          task.id === id ? { ...task, status: newStatus } : task
+        )
+      );
+  
+      setFilteredTasks((prevFilteredTasks) =>
+        prevFilteredTasks.map((task) =>
+          task.id === id ? { ...task, status: newStatus } : task
+        )
+      );
+
       await updateTask(id, { status: newStatus });
-      handleRefresh();
+  
+      console.log("Task status updated successfully");
     } catch (error) {
       console.error("Error updating task status:", error);
+  
+     handleRefresh();
     }
   };
+  
   
 
   const handleSearch = (searchText: string) => {
