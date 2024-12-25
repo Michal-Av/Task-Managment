@@ -2,17 +2,23 @@
 
 export type Status = 'Todo' | 'In Progress' | 'Done' | 'Need Attention';
 export type Priority = 'Low' | 'Medium' | 'High';
+export enum TaskStatus {
+  Todo = "todo",
+  InProgress = "in-progress",
+  Done = "done",
+  Stuck = "stuck",
+}
 
 // types/Task.ts
 export interface Task {
   id: string;
   title: string;
   description?: string;
-  status: string; // Ensure `status` is a string (e.g., "Todo", "In Progress").
-  owner: string; // `owner` is the owner's ID (string).
-  priority: string; // Priority as string ("High", "Medium", etc.).
-  deadline: string; // ISO date string or formatted date.
-  project: string; // Project ID this task belongs to
-  createdBy: string;
+  status: TaskStatus;
+  owner?: string;
+  priority?: string;
+  deadline?: string;
+  createdBy?: string;
+  projectId?: string;
   [key: string]: string | undefined;
 }

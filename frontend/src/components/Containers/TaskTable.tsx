@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Button, Chip, Paper, Box, Typography } from "@mui/material";
 import { Delete as DeleteIcon } from "@mui/icons-material";
@@ -11,15 +11,18 @@ import EditTaskDialog from "../Popups/EditTaskDialog";
 const TaskTable = ({
   tasks,
   owners,
+  projects,
   onStatusUpdate,
   onTaskUpdate,
   onDeleteTasks,
 }: {
   tasks: any[];
   owners: any[];
+  projects: any[];
   onStatusUpdate: (id: string, newStatus: string) => void;
   onTaskUpdate: (updatedTask: any) => void;
   onDeleteTasks: (taskIds: string[]) => void;
+
 }) => {
   const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
   const [currentTaskId, setCurrentTaskId] = useState<string | null>(null);
@@ -27,7 +30,8 @@ const TaskTable = ({
   const [selectedTask, setSelectedTask] = useState<any>(null);
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
 
-  const statusOptions = ["Todo", "In-Progress", "Done", "Stuck"];
+  const priorities = ["low", "medium", "high"];
+  const statusOptions = ["todo", "in-progress", "done", "stuck"];
 
   const statusColors: Record<string, string> = {
     todo: "#2196F3",
@@ -174,7 +178,7 @@ const TaskTable = ({
       <DataGrid
         rows={rows}
         columns={columns}
-        pageSizeOptions={[5, 10]}
+        pageSizeOptions={[5, 10, 100]}
         checkboxSelection
         onRowSelectionModelChange={(ids) => setSelectedRows(ids as string[])}
         disableRowSelectionOnClick
@@ -248,6 +252,8 @@ const TaskTable = ({
           task={selectedTask}
           owners={owners.map((o) => ({ id: o._id, name: o.name || o.username }))}
           statuses={statusOptions}
+          projects={projects.map((p) => ({ id: p.id, name: p.name}))}
+          priorities={priorities}
         />
       )}
     </Paper>

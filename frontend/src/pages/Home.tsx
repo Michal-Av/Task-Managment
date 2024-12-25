@@ -4,10 +4,11 @@ import Header from "../components/Layout/Navigation/Header";
 import Sidebar from "../components/Layout/Navigation/Sidebar";
 import TaskManager from "./TaskManager";
 import { Task } from "../types/Task";
-import { addTask, deleteTask, getTasksByProject, updateTask } from "../services/api-tasks";
+import { addTask, deleteTask, getTasks, getTasksByProject, updateTask } from "../services/api-tasks";
+import { addProject, deleteProject, getProjects } from "../services/api-projects";
 
 const Home: React.FC = () => {
-  const { tasks, setTasks, projects, owners, selectedProject, setSelectedProject, filteredTasks ,setFilteredTasks, isDialogOpen, setIsDialogOpen } = useTasks();
+  const { tasks, setTasks, projects, setProjects, owners, selectedProject, setSelectedProject, filteredTasks ,setFilteredTasks } = useTasks();
 
   const handleRefresh = async () => {
     if (!selectedProject) return;
@@ -43,6 +44,72 @@ const Home: React.FC = () => {
       console.error("Error refreshing tasks:", error);
     }
   };
+
+   // Add a new project
+   const handleAddProject = async (newProject: {
+    name: string;
+    description: string;
+    owner: string;
+    sharedWith: string[];
+  }) => {
+    try {
+      // הכנת הנתונים לשליחה לשרת
+      const projectPayload = {
+        name: newProject.name,
+        description: newProject.description,
+        owner: newProject.owner,
+        sharedWith: newProject.sharedWith,
+        tasks: [], // רשימת משימות ריקה
+        createdAt: new Date().toISOString(), // עדכון createdAt כאן
+        updatedAt: new Date().toISOString(),
+      };
+  
+      // הוספת הפרויקט לשרת
+      const addedProject = await addProject(projectPayload);
+  
+      // שליפת הפרויקטים המעודכנים מהשרת
+      const fetchedProjects = await getProjects();
+  
+      // מיפוי הפרויקטים למבנה הקיים בצד הלקוח
+      const mappedProjects = fetchedProjects.map((project: any) => ({
+        id: project._id,
+        name: project.name,
+        description: project.description,
+        owner: project.owner,
+        tasks: project.tasks,
+        sharedWith: project.sharedWith,
+        createdAt: project.createdAt || "",
+        updatedAt: project.updatedAt || "",
+      }));
+  
+      // עדכון מצב הפרויקטים
+      setProjects(mappedProjects);
+  
+      console.log("New project added:", addedProject);
+    } catch (error) {
+      console.error("Error adding project:", error);
+    }
+  };
+  
+  // Delete a project
+  const handleDeleteProject = async (projectId: string) => {
+    try {
+      if (window.confirm("Are you sure you want to delete this project?")) {
+        await deleteProject(projectId);
+        setProjects((prevProjects) =>
+          prevProjects.filter((project) => project._id !== projectId)
+        );
+
+        if (selectedProject === projectId) {
+          setSelectedProject(null); // Clear selected project if deleted
+        }
+
+        console.log("Project deleted ID:", projectId);
+      }
+    } catch (error) {
+      console.error("Error deleting project:", error);
+    }
+  };
   
   // Handle sorting
   const handleSort = (column: keyof Task, order: string) => {
@@ -59,48 +126,26 @@ const Home: React.FC = () => {
   // Handle filtering
   const handleFilterApply = (filters: { project?: string; task?: string; owner?: string; status?: string }) => {
     const filtered = tasks.filter((task) => {
-      const matchesProject = !filters.project || projects.find((p) => p._id === task.project)?.name === filters.project;
+      const matchesProject = !filters.project || projects.find((p) => p._id === task.projectId)?.name === filters.project;
       const matchesTask = !filters.task || task.title === filters.task;
       const matchesOwner = !filters.owner || owners.find((o) => o._id === task.createdBy)?.username === filters.owner || owners.find((o) => o._id === task.createdBy)?.name === filters.owner;
       const matchesStatus = !filters.status || task.status.toLowerCase() === filters.status.toLowerCase();
   
       return matchesProject && matchesTask && matchesOwner && matchesStatus;
     });
-
+    console.log(filtered);
+    
     setFilteredTasks(filtered);
   };
   
 
   // Handle status update
   const handleStatusUpdate = async (id: string, newStatus: string) => {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) =>
-        task.id === id ? { ...task, status: newStatus } : task
-      )
-    );
-    setFilteredTasks((prevFilteredTasks) =>
-      prevFilteredTasks.map((task) =>
-        task.id === id ? { ...task, status: newStatus } : task
-      )
-    );
-  
     try {
-    
       await updateTask(id, { status: newStatus });
-      console.log("Task status updated successfully");
+      handleRefresh();
     } catch (error) {
-      console.error("Error updating task:", error);
-  
-      setTasks((prevTasks) =>
-        prevTasks.map((task) =>
-          task.id === id ? { ...task, status: "Previous Status" } : task
-        )
-      );
-      setFilteredTasks((prevFilteredTasks) =>
-        prevFilteredTasks.map((task) =>
-          task.id === id ? { ...task, status: "Previous Status" } : task
-        )
-      );
+      console.error("Error updating task status:", error);
     }
   };
   
@@ -115,10 +160,6 @@ const Home: React.FC = () => {
       setFilteredTasks(filtered);
     }
   };
-
-  
-  const handleNewTaskClick = () => setIsDialogOpen(true);
-  const handleDialogClose = () => setIsDialogOpen(false);
 
   const handleTaskCreate = async (newTask: { 
     title: string; 
@@ -211,12 +252,41 @@ const Home: React.FC = () => {
       console.error("Error deleting tasks:", error);
     }
   };   
+  
+  const handleShowAllTasks = async () => {
+    try {
+      const allTasks = await getTasks();
+      const mappedTasks = allTasks.map((task: any) => ({
+        id: task._id,
+        title: task.title,
+        description: task.description,
+        status: task.status,
+        owner: task.owner,
+        priority: task.priority,
+        deadline: task.deadline,
+        createdBy: task.createdBy,
+        projectId: task.projectId,
+      }));
+      setTasks(mappedTasks); // עדכון המשימות הכלליות
+      setFilteredTasks(mappedTasks); // עדכון המשימות המוצגות
+      setSelectedProject(null); // ביטול בחירת הפרויקט הנוכחי
+    } catch (error) {
+      console.error("Error fetching all tasks:", error);
+    }
+  };
 
   return (
     <div style={{ height: "100vh", display: "flex", flexDirection: "column" }}>
       <Header />
       <div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
-        <Sidebar projects={projects} onSelect={setSelectedProject} />
+        <Sidebar 
+        projects={projects} 
+        owners={owners.map((o) => ({ id: o._id, name: o.name || o.username }))}
+        onShowAllTasks={handleShowAllTasks}
+        onSelect={setSelectedProject}  
+        onAddProject={handleAddProject}
+        onDeleteProject={handleDeleteProject}
+        />
         <div style={{ flex: 1, padding: "20px", overflowY: "auto" }}>
           <TaskManager
             tasks={filteredTasks}

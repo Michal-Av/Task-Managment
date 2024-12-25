@@ -24,3 +24,7 @@ export async function getTasksByProject(projectId: string): Promise<any> {
     return await TaskModel.find({ projectId });
 }
 
+export async function deleteTasksByProjectId(projectId: string): Promise<void> {
+    await TaskModel.deleteMany({ projectId: projectId });
+}
+

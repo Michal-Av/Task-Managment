@@ -53,6 +53,7 @@ const TaskManager: React.FC<TaskManagerProps> = ({
       <TaskTable
         tasks={tasks}
         owners={owners}
+        projects={projects.map((p) => ({ id: p._id || "unknown-id", name: p.name }))}
         onStatusUpdate={onStatusUpdate}
         onTaskUpdate={onTaskUpdate}
         onDeleteTasks={onDeleteTasks}

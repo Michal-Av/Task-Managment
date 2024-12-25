@@ -16,6 +16,8 @@ interface EditTaskDialogProps {
   task: any;
   owners: { id: string; name: string }[];
   statuses: string[];
+  projects: { id: string; name: string }[];
+  priorities: string[];
 }
 
 const EditTaskDialog: React.FC<EditTaskDialogProps> = ({
@@ -25,23 +27,39 @@ const EditTaskDialog: React.FC<EditTaskDialogProps> = ({
   task,
   owners,
   statuses,
+  projects,
+  priorities,
 }) => {
   const [editedTask, setEditedTask] = useState<any>({});
-
+  const [selectedProject, setSelectedProject] = useState<string>("");
+  
   // Update editedTask whenever task changes
   useEffect(() => {
     if (task) {
+      console.log("Task data:", task);
+      const project = projects.find((p) => p.id === task.projectId) || { id: "", name: "" };
       setEditedTask({
         ...task,
+        projectId: task.projectId || project.id,
+        priority: task.priority || "", // בדוק אם יש עדיפות קיימת
+        status: task.status || "",    // טען את הסטטוס הקיים או ברירת מחדל
         deadline: task.deadline
-          ? new Date(task.deadline).toISOString().slice(0, 16) // Convert to datetime-local format
+          ? new Date(task.deadline).toISOString().slice(0, 16)
           : "",
       });
+      setSelectedProject(task.projectId || project.id);
     }
-  }, [task]);
-
+  }, [task, projects]);
+  
   const handleChange = (field: string, value: any) => {
     setEditedTask((prev: any) => ({ ...prev, [field]: value }));
+    console.log(editedTask);
+    
+  };
+
+  const handleProjectChange = (value: string) => {
+    setSelectedProject(value);
+    handleChange("projectId", value); // Update projectId in editedTask
   };
 
   const handleSave = () => {
@@ -73,6 +91,19 @@ const EditTaskDialog: React.FC<EditTaskDialogProps> = ({
           multiline
           rows={3}
         />
+         <TextField
+          select
+          label="Priority"
+          value={editedTask.priority || ""}
+          onChange={(e) => handleChange("priority", e.target.value)}
+          fullWidth
+        >
+          {priorities.map((priority) => (
+            <MenuItem key={priority} value={priority}>
+              {priority}
+            </MenuItem>
+          ))}
+        </TextField>
         <TextField
           select
           label="Status"
@@ -104,6 +135,19 @@ const EditTaskDialog: React.FC<EditTaskDialogProps> = ({
           {owners.map((owner) => (
             <MenuItem key={owner.id} value={owner.id}>
               {owner.name}
+            </MenuItem>
+          ))}
+        </TextField>
+        <TextField
+          select
+          label="Project"
+          value={selectedProject}
+          onChange={(e) => handleProjectChange(e.target.value)}
+          fullWidth
+        >
+          {projects.map((project) => (
+            <MenuItem key={project.id} value={project.id}>
+              {project.name}
             </MenuItem>
           ))}
         </TextField>

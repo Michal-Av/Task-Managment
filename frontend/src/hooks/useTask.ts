@@ -41,14 +41,12 @@ export const useTasks = () => {
     fetchOwners();
   }, []);
 
-  useEffect(() => {
-    setFilteredTasks([...tasks]);
-  }, [tasks]);
 
   return {
     tasks,
     setTasks,
     projects,
+    setProjects,
     owners,
     selectedProject,
     setSelectedProject,

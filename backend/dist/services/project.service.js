@@ -11,7 +11,8 @@ async function createProjectUC(body) {
 }
 async function deleteProjectUC(params) {
     const { id } = params;
-    return await (0, project_da_1.deleteProject)(id);
+    // Call the Data Access function to delete the project and its tasks
+    await (0, project_da_1.deleteProjectWithTasks)(id);
 }
 async function updateProjectUC(params, body) {
     const { id } = params;

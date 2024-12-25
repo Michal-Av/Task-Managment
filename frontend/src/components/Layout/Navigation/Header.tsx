@@ -30,8 +30,8 @@ const Header: React.FC<HeaderProps> = ({ username }) => {
         <span>Welcome {username}</span>
       </div>
       <ul className="nav-links">
-        <li><Link to="/home">Home</Link></li>
-        <li><Link to="/profile">Profile</Link></li>
+        {/* <li><Link to="/home">Home</Link></li>
+        <li><Link to="/profile">Profile</Link></li> */}
         <li><button onClick={handleLogout}>Logout</button></li>
       </ul>
     </nav>

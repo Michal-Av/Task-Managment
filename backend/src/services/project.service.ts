@@ -1,6 +1,7 @@
 import {
     createProject,
     deleteProject,
+    deleteProjectWithTasks,
     getAllProjects,
     getProject,
     updateProject,
@@ -12,7 +13,8 @@ import {
   
   export async function deleteProjectUC(params: { id: string }): Promise<any> {
     const { id } = params;
-    return await deleteProject(id);
+    // Call the Data Access function to delete the project and its tasks
+    await deleteProjectWithTasks(id);
   }
   
   export async function updateProjectUC(params: { id: string }, body: any): Promise<any> {
