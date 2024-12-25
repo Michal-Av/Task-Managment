@@ -65,7 +65,7 @@ const SortMenu = ({ onApply }: { onApply: (column: string, order: string) => voi
           <MenuItem value="title">Task</MenuItem>
           <MenuItem value="status">Status</MenuItem>
           <MenuItem value="priority">Priority</MenuItem>
-          <MenuItem value="owner">Owner</MenuItem>
+          <MenuItem value="createdBy">Owner</MenuItem>
           <MenuItem value="deadline">Deadline</MenuItem>
         </Select>
       </FormControl>

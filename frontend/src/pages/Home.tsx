@@ -134,12 +134,14 @@ const Home: React.FC = () => {
     setFilteredTasks(filtered);
   };
   
-
+  const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
   // Handle status update
   const handleStatusUpdate = async (id: string, newStatus: string) => {
     try {
       await updateTask(id, { status: newStatus });
+      await delay(2000); // השהייה של 2 שניות
       handleRefresh();
+       
     } catch (error) {
       console.error("Error updating task status:", error);
     }
