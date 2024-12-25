@@ -68,12 +68,12 @@ A robust task management solution designed to help users organize their responsi
    - **Backend:**
      ```bash
      cd backend
-     npm install
+     npm install --legacy-peer-deps
      ```
    - **Frontend:**
      ```bash
      cd ../frontend
-     npm install
+     npm install --legacy-peer-deps
      ```
 
 3. **Environment Setup:**
