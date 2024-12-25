@@ -1,13 +1,9 @@
 // types/Task.ts
 
-export type Status = 'Todo' | 'In Progress' | 'Done' | 'Need Attention';
-export type Priority = 'Low' | 'Medium' | 'High';
-export enum TaskStatus {
-  Todo = "todo",
-  InProgress = "in-progress",
-  Done = "done",
-  Stuck = "stuck",
-}
+export type TaskStatus = "todo" | "in-progress" | "done" | "stuck";
+
+export type Priority = 'low' | 'medium' | 'high';
+
 
 // types/Task.ts
 export interface Task {
