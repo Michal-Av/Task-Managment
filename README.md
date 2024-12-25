@@ -1,4 +1,5 @@
 
+
 # 📝 Task Management Application
 
 A robust task management solution designed to help users organize their responsibilities across personal, family, and work domains. This app provides a seamless experience for managing tasks, projects, and collaborations, enabling users to capture, organize, and complete tasks efficiently.
@@ -27,7 +28,7 @@ A robust task management solution designed to help users organize their responsi
   - Create, update, and delete tasks with detailed attributes such as title, description, priority, deadline, and status.
 - **Project Management:**
   - Organize tasks under projects for better categorization.
-  - Create, and delete projects dynamically.
+  - Create, update, and delete projects dynamically.
 - **Task Filtering and Sorting:**
   - Filter tasks by status, priority, owner, or project.
   - Sort tasks by various attributes like deadline, title, or priority.
@@ -58,34 +59,44 @@ A robust task management solution designed to help users organize their responsi
 ### **Installation Steps**
 
 1. **Clone the Repository:**
+   ```bash
    git clone https://github.com/Michal-Av/Tasks-Managment.git
    cd Tasks-Managment
+   ```
 
 2. **Install Dependencies:**
    - **Backend:**
+     ```bash
      cd backend
      npm install
-  
+     ```
    - **Frontend:**
-
+     ```bash
      cd ../frontend
      npm install
-     
+     ```
 
 3. **Environment Setup:**
-
+   - **Backend:**
+     Create a `.env` file in the `backend` directory with:
+     ```
+     PORT=8000
+     MONGODB_URI=your_mongodb_connection_string
+     ```
+   - **Frontend:**
+     Configure any necessary environment variables.
 
 4. **Start the Application:**
    - **Backend:**
-    
+     ```bash
      cd backend
      npm start
-    
+     ```
    - **Frontend:**
-     
+     ```bash
      cd ../frontend
      npm start
-  
+     ```
 
 5. **Access the Application:**
    Open your browser and navigate to `http://localhost:3000`.
@@ -175,10 +186,7 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 
 ## 💬 Contact
 
-- **Author:** Michal Avrahami
-- **Email:** michalus.av@gmail.com
+- **Author:** Michal Rahat
+- **Email:** [michalus.av@gmail.com](mailto:michalus.av@gmail.com)
 - **GitHub:** [Michal-Av](https://github.com/Michal-Av)
 
---- 
-
-Feel free to modify the file to better fit your needs or include additional sections as required!
