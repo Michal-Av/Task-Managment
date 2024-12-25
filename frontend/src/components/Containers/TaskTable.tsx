@@ -7,6 +7,7 @@ import { format } from "date-fns";
 import "./TaskTable.css";
 import OwnerMenu from "../UIElements/ownerMenu";
 import EditTaskDialog from "../Popups/EditTaskDialog";
+import { TaskStatus } from "../../types/Task";
 
 const TaskTable = ({
   tasks,
@@ -19,7 +20,7 @@ const TaskTable = ({
   tasks: any[];
   owners: any[];
   projects: any[];
-  onStatusUpdate: (id: string, newStatus: string) => void;
+  onStatusUpdate: (id: string, newStatus: TaskStatus) => void;
   onTaskUpdate: (updatedTask: any) => void;
   onDeleteTasks: (taskIds: string[]) => void;
 
@@ -54,9 +55,11 @@ const TaskTable = ({
   };
 
   const handleStatusChange = (newStatus: string) => {
+    const taskStatus = newStatus as TaskStatus;
     if (currentTaskId) {
-      onStatusUpdate(currentTaskId, newStatus);
+      onStatusUpdate(currentTaskId, taskStatus);
     }
+    console.log(newStatus)
     handleCloseMenu();
   };
 
