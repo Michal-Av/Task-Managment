@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTasks } from "../hooks/useTask";
 import Header from "../components/Layout/Navigation/Header";
 import Sidebar from "../components/Layout/Navigation/Sidebar";
@@ -9,41 +9,53 @@ import { addProject, deleteProject, getProjects } from "../services/api-projects
 
 const Home: React.FC = () => {
   const { tasks, setTasks, projects, setProjects, owners, selectedProject, setSelectedProject, filteredTasks ,setFilteredTasks } = useTasks();
-
+  
   const handleRefresh = async () => {
-    if (!selectedProject) return;
-  
     try {
-      const fetchedTasks = await getTasksByProject(selectedProject);
-      const mappedTasks = fetchedTasks.map((task: any) => ({
-        id: task._id,
-        title: task.title,
-        description: task.description,
-        status: task.status,
-        owner: task.owner,
-        priority: task.priority,
-        deadline: task.deadline,
-        createdBy: task.createdBy,
-        project: task.project,
-      }));
+      // אם פרויקט נבחר, שלוף משימות לפי פרויקט
+      if (selectedProject) {
+        const fetchedTasks = await getTasksByProject(selectedProject);
   
-      setTasks(mappedTasks);
+        // מיפוי רשומות המשימות לפורמט מתאים
+        const mappedTasks = fetchedTasks.map((task: any) => ({
+          id: task._id,
+          title: task.title,
+          description: task.description,
+          status: task.status,
+          owner: task.owner,
+          priority: task.priority,
+          deadline: task.deadline,
+          createdBy: task.createdBy,
+          project: task.project,
+        }));
   
-    
-      if (filteredTasks.length > 0) {
-        handleFilterApply({
-          project: filteredTasks[0]?.project, 
-          task: "", 
-          owner: "",
-          status: "",
-        });
+        // עדכון המצב
+        setTasks(mappedTasks);
+        setFilteredTasks(mappedTasks);
       } else {
-        setFilteredTasks(mappedTasks); 
+        // אם אין פרויקט נבחר, שלוף את כל המשימות
+        const fetchedTasks = await getTasks();
+        const mappedTasks = fetchedTasks.map((task: any) => ({
+          id: task._id,
+          title: task.title,
+          description: task.description,
+          status: task.status,
+          owner: task.owner,
+          priority: task.priority,
+          deadline: task.deadline,
+          createdBy: task.createdBy,
+          project: task.project,
+        }));
+  
+        // עדכון המצב
+        setTasks(mappedTasks);
+        setFilteredTasks(mappedTasks);
       }
     } catch (error) {
       console.error("Error refreshing tasks:", error);
     }
   };
+  
 
    // Add a new project
    const handleAddProject = async (newProject: {
@@ -151,7 +163,7 @@ const Home: React.FC = () => {
       );
 
       await updateTask(id, { status: newStatus });
-      await delay(2000); // השהייה של 2 שניות
+      await delay(2000); 
       handleRefresh();
        
     } catch (error) {
@@ -205,6 +217,7 @@ const Home: React.FC = () => {
      
       setTasks(mappedTasks);
       setFilteredTasks(mappedTasks); 
+      handleRefresh();
     } catch (error) {
       console.error("Error creating task on the server:", error);
     }

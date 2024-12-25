@@ -73,9 +73,9 @@ const FilterMenu: React.FC<FilterMenuProps> = ({ projects, tasks, owners, status
           vertical: "top",
           horizontal: "left",
         }}
-        sx={{ minWidth: 300 }}
+        sx={{ minWidth: 500 }}
       >
-        <Box sx={{ padding: 2, minWidth: 300 }}>
+        <Box sx={{ padding: 2, minWidth: 500 }}>
           <Typography variant="subtitle1" fontWeight="bold">
             Quick Filters
           </Typography>
@@ -86,10 +86,30 @@ const FilterMenu: React.FC<FilterMenuProps> = ({ projects, tasks, owners, status
           <Box
             sx={{
                 display: "grid",
-                gridTemplateColumns: "repeat(3, 1fr)", 
+                gridTemplateColumns: "repeat(4, 1fr)", 
                 gap: 4, 
             }}
             >
+            {/* Project Filter */}
+            <Box>
+              <Typography variant="body2" fontWeight="bold" sx={{ mb: 1 }}>
+                Project
+              </Typography>
+              <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+                {projects.map((item, index) => (
+                  <Chip
+                    key={`project-${index}`}
+                    label={item}
+                    sx={{
+                      margin: "2px 0",
+                      backgroundColor: selectedFilters.project === item ? "#4CAF50" : undefined,
+                      color: selectedFilters.project === item ? "#fff" : undefined,
+                    }}
+                    onClick={() => handleFilterChange("project", item)}
+                  />
+                ))}
+              </Box>
+            </Box>
             {/* Name Filter */}
             <Box>
               <Typography variant="body2" fontWeight="bold" sx={{ mb: 1 }}>

@@ -91,7 +91,7 @@ const NewTaskDialog: React.FC<NewTaskDialogProps> = ({
             select
             fullWidth
             value={status}
-            onChange={(e) => setStatus(e.target.value)}
+            onChange={(e) => setStatus(e.target.value.toLowerCase())}
           >
             <MenuItem value="todo">Todo</MenuItem>
             <MenuItem value="in-progress">In Progress</MenuItem>

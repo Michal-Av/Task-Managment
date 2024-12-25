@@ -23,7 +23,7 @@ export const useTasks = () => {
     fetchProjects();
   }, []);
 
-  useEffect(() => {
+  useEffect(() => { 
     const fetchTasks = async () => {
       if (!selectedProject) return;
       const fetchedTasks = await getTasksByProject(selectedProject);
