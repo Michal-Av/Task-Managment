@@ -6,21 +6,13 @@ import {
   updateProject,
   deleteProject,
 } from '../controllers/project.controller';
-import {
-  validateCreateProject,
-  validateUpdateProject,
-  validateGetProject,
-  validateGetAllProjects,
-  validateDeleteProject,
-} from '../validations/project.validation';
-import validateRequest from '../middleware/validateResource'; // Middleware for validation
 
 const router: Router = express.Router();
 
-router.get('/', validateRequest(validateGetAllProjects), getAllProjects);
-router.post('/', validateRequest(validateCreateProject), createProject);
-router.get('/:id', validateRequest(validateGetProject), getProjectById);
-router.put('/:id', validateRequest(validateUpdateProject), updateProject);
-router.delete('/:id', validateRequest(validateDeleteProject), deleteProject);
+router.get('/', getAllProjects);
+router.post('/', createProject);
+router.get('/:id', getProjectById);
+router.put('/:id', updateProject);
+router.delete('/:id', deleteProject);
 
 export default router;

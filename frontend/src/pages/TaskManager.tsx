@@ -2,7 +2,7 @@ import React from "react";
 import TaskTable from "../components/Containers/TaskTable";
 import Toolbar from "../components/Layout/Toolbar/Toolbar";
 import NewTaskDialog from "../components/Popups/NewTaskDialog";
-import { Task } from "../types/Task";
+import { Task, TaskStatus } from "../types/Task";
 import { User } from "../types/User";
 import { Project } from "../types/Project";
 
@@ -15,7 +15,7 @@ interface TaskManagerProps {
   onSort: (column: keyof Task, order: string) => void;
   onFilter: (filters: any) => void;
   onSearch: (searchText: string) => void;
-  onStatusUpdate: (id: string, newStatus: string) => void;
+  onStatusUpdate: (id: string, newStatus: TaskStatus) => void;
   onNewTask: (newTask: any) => void;
   onTaskUpdate: (updatedTask: Task) => void;
   onDeleteTasks: (taskIds: string[]) => void; 
