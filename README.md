@@ -100,6 +100,9 @@ A robust task management solution designed to help users organize their responsi
 
 5. **Access the Application:**
    Open your browser and navigate to `http://localhost:3000`.
+   the userAdmin:
+    username: michalus.av@gmail.com
+    pass: Avraham3
 
 ---
 
