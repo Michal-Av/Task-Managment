@@ -146,7 +146,6 @@ const Home: React.FC = () => {
     setFilteredTasks(filtered);
   };
   
-  const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
   // Handle status update
   const handleStatusUpdate = async (id: string, newStatus: TaskStatus) => {
     try {
@@ -161,15 +160,11 @@ const Home: React.FC = () => {
           task.id === id ? { ...task, status: newStatus } : task
         )
       );
-
       await updateTask(id, { status: newStatus });
-      await delay(2000); 
       handleRefresh();
        
     } catch (error) {
       console.error("Error updating task status:", error);
-  
-     handleRefresh();
     }
   };
   
@@ -253,12 +248,13 @@ const Home: React.FC = () => {
   };
 
   const handleDeleteTasks = async (taskIds: string[]) => {
-    if (!selectedProject) return;
-    try {
-      await deleteTask(taskIds[0])
-      console.log("Tasks to delete:", taskIds);
+    if (!selectedProject || taskIds.length === 0) return; 
   
-      const fetchedTasks = await getTasksByProject(selectedProject);
+    try {
+      await Promise.all(taskIds.map((taskId) => deleteTask(taskId)));
+  
+
+      const fetchedTasks = await getTasksByProject(selectedProject);  
       const mappedTasks = fetchedTasks.map((task: any) => ({
         id: task._id,
         title: task.title,
@@ -270,7 +266,6 @@ const Home: React.FC = () => {
         createdBy: task.createdBy,
         project: task.project,
       }));
-  
      
       setTasks(mappedTasks);
       setFilteredTasks(mappedTasks); 
