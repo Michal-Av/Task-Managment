@@ -5,16 +5,24 @@ import {
   getTaskById,
   updateTask,
   deleteTask,
-  getTaskByProject
+  getTaskByProject,
 } from '../controllers/task.controller';
+import {
+  validateCreateTask,
+  validateUpdateTask,
+  validateGetTask,
+  validateGetTasksByProject,
+  validateDeleteTask,
+} from '../validations/task.validation';
+import validateResource from '../middleware/validateResource';
 
 const router: Router = express.Router();
 
 router.get('/', getAllTasks);
-router.post('/', createTask);
-router.get('/:id', getTaskById);
-router.get('/project/:projectId', getTaskByProject);
-router.put('/:id', updateTask);
-router.delete('/:id', deleteTask);
+router.post('/', validateResource(validateCreateTask), createTask);
+router.get('/:id', validateResource(validateGetTask), getTaskById);
+router.get('/project/:projectId', validateResource(validateGetTasksByProject), getTaskByProject);
+router.put('/:id', validateResource(validateUpdateTask), updateTask);
+router.delete('/:id', validateResource(validateDeleteTask), deleteTask);
 
 export default router;

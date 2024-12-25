@@ -6,8 +6,8 @@ export interface User {
   password: string;
   projects: mongoose.Types.ObjectId[]; // קישורים לפרויקטים
   role: "Admin" | "Editor" | "Viewer"; // סוגי תפקידים
-  location: string; // מיקום
-  status?: "online" | "offline"; // סטטוס (אופציונלי)
+  location: string; 
+  status?: "online" | "offline"; 
 }
 
 export interface UserDocument extends User, Document {}
@@ -35,11 +35,10 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     enum: ["Admin", "Editor", "Viewer"],
-    required: true,
   },
   location: {
     type: String,
-    required: true,
+    
   },
   status: {
     type: String,

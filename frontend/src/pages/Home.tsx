@@ -52,25 +52,22 @@ const Home: React.FC = () => {
     owner: string;
     sharedWith: string[];
   }) => {
-    try {
-      // הכנת הנתונים לשליחה לשרת
+    try {  
       const projectPayload = {
         name: newProject.name,
         description: newProject.description,
         owner: newProject.owner,
         sharedWith: newProject.sharedWith,
-        tasks: [], // רשימת משימות ריקה
-        createdAt: new Date().toISOString(), // עדכון createdAt כאן
+        tasks: [],
+        createdAt: new Date().toISOString(), 
         updatedAt: new Date().toISOString(),
       };
   
-      // הוספת הפרויקט לשרת
       const addedProject = await addProject(projectPayload);
   
-      // שליפת הפרויקטים המעודכנים מהשרת
+
       const fetchedProjects = await getProjects();
   
-      // מיפוי הפרויקטים למבנה הקיים בצד הלקוח
       const mappedProjects = fetchedProjects.map((project: any) => ({
         id: project._id,
         name: project.name,
@@ -82,7 +79,6 @@ const Home: React.FC = () => {
         updatedAt: project.updatedAt || "",
       }));
   
-      // עדכון מצב הפרויקטים
       setProjects(mappedProjects);
   
       console.log("New project added:", addedProject);
@@ -267,9 +263,9 @@ const Home: React.FC = () => {
         createdBy: task.createdBy,
         projectId: task.projectId,
       }));
-      setTasks(mappedTasks); // עדכון המשימות הכלליות
-      setFilteredTasks(mappedTasks); // עדכון המשימות המוצגות
-      setSelectedProject(null); // ביטול בחירת הפרויקט הנוכחי
+      setTasks(mappedTasks); 
+      setFilteredTasks(mappedTasks); 
+      setSelectedProject(null); 
     } catch (error) {
       console.error("Error fetching all tasks:", error);
     }

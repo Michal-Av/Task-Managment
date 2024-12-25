@@ -27,11 +27,9 @@ const userSchema = new mongoose_1.default.Schema({
     role: {
         type: String,
         enum: ["Admin", "Editor", "Viewer"],
-        required: true,
     },
     location: {
         type: String,
-        required: true,
     },
     status: {
         type: String,
